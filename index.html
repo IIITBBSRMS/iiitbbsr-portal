@@ -1,25 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Student Login | IIIT BBSR</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Student Login | IIIT Bhubaneswar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body{
       margin:0;
       height:100vh;
       display:flex;
-      align-items:center;
       justify-content:center;
-      font-family:Segoe UI,Arial,sans-serif;
+      align-items:center;
+      font-family:Segoe UI, Arial, sans-serif;
       background:#f1f5f9;
     }
     .login-box{
+      width:340px;
       background:#fff;
       padding:30px;
-      width:340px;
       border-radius:8px;
-      box-shadow:0 4px 15px rgba(0,0,0,.1);
+      box-shadow:0 4px 15px rgba(0,0,0,0.1);
     }
     h2{text-align:center;margin-bottom:20px}
     input{
@@ -32,12 +33,12 @@
     button{
       width:100%;
       padding:10px;
+      margin-top:10px;
       background:#9b2c2c;
       color:#fff;
       border:none;
       border-radius:4px;
       cursor:pointer;
-      margin-top:10px;
     }
     .error{
       color:#b91c1c;
@@ -46,23 +47,24 @@
     }
   </style>
 </head>
+
 <body>
 
 <div class="login-box">
   <h2>Student Login</h2>
-  <input type="text" id="id" placeholder="Student ID">
-  <input type="password" id="password" placeholder="Password">
+  <input type="text" id="sid" placeholder="Student ID">
+  <input type="password" id="pass" placeholder="Password">
   <button onclick="login()">Login</button>
   <div class="error" id="error"></div>
 </div>
 
 <script>
   function login(){
-    const id = document.getElementById('id').value;
-    const pass = document.getElementById('password').value;
+    const id = document.getElementById("sid").value;
+    const pw = document.getElementById("pass").value;
 
-    if(id === "B425020" && pass === "Biswajit@123"){
-      sessionStorage.setItem("auth","1");
+    if(id === "B425020" && pw === "Biswajit@123"){
+      sessionStorage.setItem("auth","true");
       window.location.href = "grades.html";
     }else{
       document.getElementById("error").innerText =
