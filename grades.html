@@ -1,161 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Grades | IIIT Bhubaneswar</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IIIT Bhubaneswar – MUMS | Grades</title>
+  <style>
+    body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#fafafa}
+    header{background:#9b2c2c;color:#fff;padding:10px 18px}
+    header .row{display:flex;align-items:center;justify-content:space-between}
+    header h1{margin:0;font-size:16px;font-weight:600}
+    header span{font-size:13px;opacity:.95}
+    header button{display:none;padding:6px 12px;background:#7f1d1d;color:#fff;border:none;border-radius:4px;cursor:pointer}
 
-<style>
-body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#fafafa}
-header{background:#9b2c2c;color:#fff;padding:10px 18px}
-header .row{display:flex;justify-content:space-between;align-items:center}
-header button{
-  background:#7f1d1d;color:#fff;border:none;
-  padding:6px 12px;border-radius:4px;cursor:pointer
-}
+    .container{max-width:1200px;margin:18px auto;background:#fff;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+    .login-box{max-width:360px;margin:70px auto 90px;padding:28px;border:1px solid #e5e7eb;border-radius:6px}
+    h2{margin:0 0 14px;text-align:center;color:#111827}
+    input,select{padding:6px 8px;border:1px solid #cbd5e1;border-radius:4px}
+    .login-box input{width:100%;margin:8px 0;padding:10px}
+    button.primary{width:100%;padding:10px;background:#9b2c2c;color:#fff;border:none;border-radius:4px;cursor:pointer}
+    .error{color:#b91c1c;text-align:center;margin-top:8px}
+    .content{display:none;padding:16px}
 
-.container{
-  max-width:1200px;
-  margin:18px auto;
-  background:#fff;
-  border-radius:6px;
-  padding:16px;
-  box-shadow:0 2px 10px rgba(0,0,0,.06)
-}
+    /* semester menu like screenshot */
+    .sem-menu{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+    .sem-menu div{background:#e46b5d;color:#fff;padding:8px 14px;border-radius:8px;font-size:14px;cursor:pointer}
+    .sem-menu .active{background:#c24135}
 
-.sem-menu{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.sem-menu div{
-  background:#e46b5d;color:#fff;
-  padding:8px 14px;border-radius:8px;
-  cursor:pointer
-}
-.sem-menu .active{background:#c24135}
+    .table-controls{display:flex;justify-content:space-between;align-items:center;margin:8px 0 6px;font-size:14px}
+    .table-controls .right input{padding:6px 8px;width:180px}
 
-.table-controls{
-  display:flex;justify-content:space-between;margin-bottom:6px
-}
+    table{width:100%;border-collapse:collapse}
+    th,td{border:1px solid #e5e7eb;padding:10px;font-size:14px}
+    th{background:#e9f0df;text-align:left;color:#374151}
+    td:nth-child(n+2){text-align:center}
+    tr:nth-child(even) td{background:#f7f7f7}
 
-table{width:100%;border-collapse:collapse}
-th,td{border:1px solid #e5e7eb;padding:10px}
-th{background:#e9f0df}
-td:nth-child(n+2){text-align:center}
-tr:nth-child(even) td{background:#f7f7f7}
+    .below-table{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:14px}
+    .cgpa{font-size:18px;font-weight:600}
 
-.below-table{
-  display:flex;justify-content:space-between;margin-top:10px
-}
-.cgpa{font-size:18px;font-weight:600}
+    .pagination{display:flex;gap:10px}
+    .pagination span{padding:6px 12px;border:1px solid #cbd5e1;border-radius:4px}
+    .active-page{background:#94a3b8;color:#fff}
 
-.pagination{display:flex;gap:8px;margin-top:10px}
-.pagination span{border:1px solid #cbd5e1;padding:6px 12px}
-.active-page{background:#94a3b8;color:#fff}
-
-.footer{text-align:center;margin-top:12px;color:#475569;font-size:13px}
-</style>
+    .footer{text-align:center;font-size:13px;color:#475569;margin:12px 0}
+  </style>
 </head>
-
 <body>
 
 <header>
   <div class="row">
-    <div>Student Portal – IIIT Bhubaneswar</div>
-    <button onclick="logout()">Logout</button>
+    <div>
+      <h1>Student Portal</h1>
+      <span>International Institute of Information Technology, Bhubaneswar</span>
+    </div>
+    <button id="logoutBtn" onclick="logout()">Logout</button>
   </div>
 </header>
 
 <div class="container">
 
-<div class="sem-menu" id="semMenu">
-  <div data-sem="1" class="active">1st Sem</div>
-  <div data-sem="2">2nd Sem</div>
-  <div data-sem="3">3rd Sem</div>
-  <div data-sem="4">4th Sem</div>
-  <div data-sem="5">5th Sem</div>
-  <div data-sem="6">6th Sem</div>
-  <div data-sem="7">7th Sem</div>
-  <div data-sem="8">8th Sem</div>
-</div>
+  <!-- Login -->
+  <div id="login" class="login-box">
+    <h2>Student Login</h2>
+    <input type="text" id="id" placeholder="Student ID" />
+    <input type="password" id="password" placeholder="Password" />
+    <button class="primary" onclick="login()">Login</button>
+    <div class="error" id="error"></div>
+  </div>
 
-<div class="table-controls">
-  <div>Show 10 entries</div>
-  <div>Search: <input></div>
-</div>
+  <!-- Grades Page -->
+  <div id="content" class="content">
 
-<table>
-<thead>
-<tr>
-  <th>Course</th>
-  <th>GPB4 PEN</th>
-  <th>Penalty</th>
-  <th>Net GP</th>
-  <th>Grade</th>
-</tr>
-</thead>
+    <!-- Semester Tabs -->
+    <div class="sem-menu" id="semMenu">
+      <div data-sem="0">Menu</div>
+      <div data-sem="1" class="active">1st Sem</div>
+      <div data-sem="2">2nd Sem</div>
+      <div data-sem="3">3rd Sem</div>
+      <div data-sem="4">4th Sem</div>
+      <div data-sem="5">5th Sem</div>
+      <div data-sem="6">6th Sem</div>
+      <div data-sem="7">7th Sem</div>
+      <div data-sem="8">8th Sem</div>
+    </div>
 
-<tbody id="gradesBody">
-<tr><td>Workshop Practice</td><td>8.50</td><td>0.00</td><td>8.50</td><td>A</td></tr>
-<tr><td>Physics Lab</td><td>8.25</td><td>0.00</td><td>8.25</td><td>A</td></tr>
-<tr><td>Physics</td><td>8.00</td><td>0.00</td><td>8.00</td><td>A</td></tr>
-<tr><td>Mathematics I</td><td>8.10</td><td>0.00</td><td>8.10</td><td>A</td></tr>
-<tr><td>Programming in C Lab</td><td>8.25</td><td>0.00</td><td>8.25</td><td>A</td></tr>
-<tr><td>Programming in C</td><td>8.00</td><td>0.00</td><td>8.00</td><td>A</td></tr>
-<tr><td>Communication Skills Lab</td><td>8.00</td><td>0.00</td><td>8.00</td><td>A</td></tr>
-<tr><td>Communication Skills</td><td>8.50</td><td>0.00</td><td>8.50</td><td>A</td></tr>
-<tr><td>Basic Mechanical Engg</td><td>8.10</td><td>0.00</td><td>8.10</td><td>A</td></tr>
-<tr><td>Basic Electronics Lab</td><td>8.20</td><td>0.00</td><td>8.20</td><td>A</td></tr>
-</tbody>
-</table>
+    <div class="table-controls">
+      <div>Show <select><option>10</option></select> entries</div>
+      <div class="right">Search: <input type="text" /></div>
+    </div>
 
-<div class="below-table">
-  <em>Showing 1 to 10 of 11 entries</em>
-  <div class="cgpa" id="cgpa">CGPA: 8.05</div>
-</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>GPB4 PEN</th>
+          <th>Penalty</th>
+          <th>Net GP</th>
+          <th>Grade</th>
+        </tr>
+      </thead>
+      <tbody id="gradesBody">
+        <tr><td>Workshop Practice</td><td>8.50</td><td>0.00</td><td>8.50</td><td>A</td></tr>
+        <tr><td>Physics Lab</td><td>8.25</td><td>0.00</td><td>8.25</td><td>A</td></tr>
+        <tr><td>Physics</td><td>8.00</td><td>0.00</td><td>8.00</td><td>A</td></tr>
+        <tr><td>Mathematics I Calculus, ODE and Complex Analysis</td><td>8.10</td><td>0.00</td><td>8.10</td><td>A</td></tr>
+        <tr><td>Introduction to Programming using C Lab</td><td>8.25</td><td>0.00</td><td>8.25</td><td>A</td></tr>
+        <tr><td>Introduction to Programming using C</td><td>8.00</td><td>0.00</td><td>8.00</td><td>A</td></tr>
+        <tr><td>Communication Skills I : English for Communication Lab</td><td>8.00</td><td>0.00</td><td>8.00</td><td>A</td></tr>
+        <tr><td>Communication Skills I : English for Communication</td><td>8.50</td><td>0.00</td><td>8.50</td><td>A</td></tr>
+        <tr><td>Basic Mechanical Engineering</td><td>8.10</td><td>0.00</td><td>8.10</td><td>A</td></tr>
+        <tr><td>Basic Electronics Lab</td><td>8.20</td><td>0.00</td><td>8.20</td><td>A</td></tr>
+      </tbody>
+    </table>
 
-<div class="pagination" id="pagination">
-  <span>Previous</span>
-  <span class="active-page">1</span>
-  <span>2</span>
-  <span>Next</span>
-</div>
+    <div class="below-table">
+      <div><em>Showing 1 to 10 of 11 entries</em></div>
+      <div class="cgpa" id="cgpa">CGPA: 8.05</div>
+    </div>
 
-<div class="footer">System Generated Report</div>
+    <div class="pagination" id="pagination">
+      <span>Previous</span>
+      <span class="active-page">1</span>
+      <span>2</span>
+      <span>Next</span>
+    </div>
+
+    <div class="footer">System Generated Report</div>
+  </div>
 </div>
 
 <script>
-  // AUTH CHECK (NO FLICKER)
-  if(!sessionStorage.getItem("auth")){
-    window.location.replace("index.html");
-  }
+  let originalRows = "";
 
-  const tbody = document.getElementById("gradesBody");
-  const cgpa = document.getElementById("cgpa");
-  const pagination = document.getElementById("pagination");
-  const originalRows = tbody.innerHTML;
-
-  document.getElementById("semMenu").onclick = e => {
-    if(!e.target.dataset.sem) return;
-
-    document.querySelectorAll(".sem-menu div")
-      .forEach(d=>d.classList.remove("active"));
-    e.target.classList.add("active");
-
-    if(e.target.dataset.sem === "1"){
-      tbody.innerHTML = originalRows;
-      cgpa.style.display="block";
-      pagination.style.display="flex";
+  function login(){
+    const id=document.getElementById('id').value;
+    const pass=document.getElementById('password').value;
+    if(id==='B425020' && pass==='Biswajit@123'){
+      localStorage.setItem('mums_auth','1');
+      showContent();
     }else{
-      tbody.innerHTML =
-        `<tr><td colspan="5" style="text-align:center;color:#64748b">
-         No results available</td></tr>`;
-      cgpa.style.display="none";
-      pagination.style.display="none";
+      document.getElementById('error').textContent='Invalid Student ID or Password';
     }
   }
 
   function logout(){
-    sessionStorage.removeItem("auth");
-    window.location.replace("index.html");
+    localStorage.removeItem('mums_auth');
+    document.getElementById('content').style.display='none';
+    document.getElementById('login').style.display='block';
+    document.getElementById('logoutBtn').style.display='none';
   }
+
+  function showContent(){
+    document.getElementById('login').style.display='none';
+    document.getElementById('content').style.display='block';
+    document.getElementById('logoutBtn').style.display='inline-block';
+  }
+
+  function switchSem(sem){
+    const tbody=document.getElementById('gradesBody');
+    const cgpa=document.getElementById('cgpa');
+    const pagination=document.getElementById('pagination');
+
+    document.querySelectorAll('.sem-menu div').forEach(d=>d.classList.remove('active'));
+    const btn=document.querySelector(`.sem-menu div[data-sem="${sem}"]`);
+    if(btn) btn.classList.add('active');
+
+    if(sem===1){
+      tbody.innerHTML = originalRows;
+      cgpa.style.display='block';
+      pagination.style.display='flex';
+    }else if(sem>1){
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;font-style:italic;color:#64748b">No results available</td></tr>';
+      cgpa.style.display='none';
+      pagination.style.display='none';
+    }
+  }
+
+  document.getElementById('semMenu').addEventListener('click', e=>{
+    if(e.target.dataset.sem){ switchSem(Number(e.target.dataset.sem)); }
+  });
+
+  document.addEventListener('DOMContentLoaded',()=>{
+    originalRows = document.getElementById('gradesBody').innerHTML;
+    if(localStorage.getItem('mums_auth') === '1'){
+      showContent();
+      switchSem(1);
+    }
+  });
 </script>
 
 </body>
