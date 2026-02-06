@@ -9,18 +9,31 @@
 body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:#fafafa}
 header{background:#9b2c2c;color:#fff;padding:10px 18px}
 header .row{display:flex;justify-content:space-between;align-items:center}
-header button{background:#7f1d1d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer}
+header button{
+  background:#7f1d1d;color:#fff;border:none;
+  padding:6px 12px;border-radius:4px;cursor:pointer
+}
 
-.container{max-width:1200px;margin:18px auto;background:#fff;border-radius:6px;padding:16px}
+.container{
+  max-width:1200px;
+  margin:18px auto;
+  background:#fff;
+  border-radius:6px;
+  padding:16px;
+  box-shadow:0 2px 10px rgba(0,0,0,.06)
+}
 
 .sem-menu{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .sem-menu div{
-  background:#e46b5d;color:#fff;padding:8px 14px;
-  border-radius:8px;cursor:pointer
+  background:#e46b5d;color:#fff;
+  padding:8px 14px;border-radius:8px;
+  cursor:pointer
 }
 .sem-menu .active{background:#c24135}
 
-.table-controls{display:flex;justify-content:space-between;margin-bottom:6px}
+.table-controls{
+  display:flex;justify-content:space-between;margin-bottom:6px
+}
 
 table{width:100%;border-collapse:collapse}
 th,td{border:1px solid #e5e7eb;padding:10px}
@@ -28,12 +41,16 @@ th{background:#e9f0df}
 td:nth-child(n+2){text-align:center}
 tr:nth-child(even) td{background:#f7f7f7}
 
-.below-table{display:flex;justify-content:space-between;margin-top:10px}
+.below-table{
+  display:flex;justify-content:space-between;margin-top:10px
+}
 .cgpa{font-size:18px;font-weight:600}
 
 .pagination{display:flex;gap:8px;margin-top:10px}
 .pagination span{border:1px solid #cbd5e1;padding:6px 12px}
 .active-page{background:#94a3b8;color:#fff}
+
+.footer{text-align:center;margin-top:12px;color:#475569;font-size:13px}
 </style>
 </head>
 
@@ -101,41 +118,45 @@ tr:nth-child(even) td{background:#f7f7f7}
   <span>Next</span>
 </div>
 
+<div class="footer">System Generated Report</div>
 </div>
 
 <script>
-if(!sessionStorage.getItem("auth")){
-  window.location.href="index.html";
-}
-
-const original = document.getElementById("gradesBody").innerHTML;
-
-document.getElementById("semMenu").onclick = e => {
-  if(!e.target.dataset.sem) return;
-
-  document.querySelectorAll(".sem-menu div")
-    .forEach(d=>d.classList.remove("active"));
-  e.target.classList.add("active");
-
-  if(e.target.dataset.sem === "1"){
-    gradesBody.innerHTML = original;
-    cgpa.style.display="block";
-    pagination.style.display="flex";
-  }else{
-    gradesBody.innerHTML =
-      `<tr><td colspan="5" style="text-align:center;color:#64748b">
-       No results available</td></tr>`;
-    cgpa.style.display="none";
-    pagination.style.display="none";
+  // AUTH CHECK (NO FLICKER)
+  if(!sessionStorage.getItem("auth")){
+    window.location.replace("index.html");
   }
-}
 
-function logout(){
-  sessionStorage.removeItem("auth");
-  window.location.href="index.html";
-}
+  const tbody = document.getElementById("gradesBody");
+  const cgpa = document.getElementById("cgpa");
+  const pagination = document.getElementById("pagination");
+  const originalRows = tbody.innerHTML;
+
+  document.getElementById("semMenu").onclick = e => {
+    if(!e.target.dataset.sem) return;
+
+    document.querySelectorAll(".sem-menu div")
+      .forEach(d=>d.classList.remove("active"));
+    e.target.classList.add("active");
+
+    if(e.target.dataset.sem === "1"){
+      tbody.innerHTML = originalRows;
+      cgpa.style.display="block";
+      pagination.style.display="flex";
+    }else{
+      tbody.innerHTML =
+        `<tr><td colspan="5" style="text-align:center;color:#64748b">
+         No results available</td></tr>`;
+      cgpa.style.display="none";
+      pagination.style.display="none";
+    }
+  }
+
+  function logout(){
+    sessionStorage.removeItem("auth");
+    window.location.replace("index.html");
+  }
 </script>
 
 </body>
 </html>
-   
